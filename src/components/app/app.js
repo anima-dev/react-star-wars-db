@@ -5,17 +5,20 @@ import Header from '../header';
 import RandomItem from '../randomItem';
 import ItemsList from '../itemsList';
 import ItemDetails from '../itemDetails';
+import './app.css';
 
 const App = () => {
     return (
-        <Container>
-            <Row><Col><Header/></Col></Row>
-            <Row><Col><RandomItem/></Col></Row>
-            <Row>
-                <Col md='6'><ItemsList/></Col>
-                <Col md='6'><ItemDetails/></Col>
-            </Row>
-        </Container>
+        <div className="bg-secondary main">
+            <Row className="w-100"><Col><Header/></Col></Row>
+            <Container>
+                <Row><Col><RandomItem/></Col></Row>
+                <Row>
+                    <Col md='6'><ItemsList/></Col>
+                    <Col md='6'><ItemDetails/></Col>
+                </Row>
+            </Container>
+        </div>
     )
 }
 
