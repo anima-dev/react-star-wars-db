@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { ListGroup, ListGroupItem } from 'reactstrap';
 import SwapiService from '../../services/swapi';
 import Spinner from '../spinner';
+import ErrorBtn from '../errorBtn';
 
 export default class ItemDetails extends Component {
 	state = {
@@ -13,13 +14,13 @@ export default class ItemDetails extends Component {
 
 	componentDidMount() {
 		this.updateItem();
-	}
+	};
 
 	componentDidUpdate(prevProps) {
 		if (prevProps.itemId !== this.props.itemId) {
 			this.updateItem();
 		}
-	}
+	};
 
 	updateItem() {
 		const {itemId} = this.props;
@@ -33,7 +34,7 @@ export default class ItemDetails extends Component {
 					loading: false
 				});
 			})
-	}
+	};
 
     render() {
 		const {selectedItem, loading} = this.state;
@@ -65,6 +66,7 @@ const CharDetails = ({char}) => {
 				<ListGroupItem className="bg-dark text-light border-warning">Birth: {year}</ListGroupItem>
 				<ListGroupItem className="bg-dark text-light border-warning">Eyes: {eyes}</ListGroupItem>
 			</ListGroup>
+			<ErrorBtn className="mt-3"/>
 		</div>
 		</>
 	)

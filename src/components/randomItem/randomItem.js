@@ -3,7 +3,7 @@ import {ListGroup, ListGroupItem} from 'reactstrap';
 import SwapiService from '../../services/swapi';
 import './randomItem.css';
 import Spinner from '../spinner/';
-import Error from '../error';
+import ErrorMsg from '../errorMsg';
 
 export default class RandomItem extends Component {
 	state = {
@@ -45,7 +45,7 @@ export default class RandomItem extends Component {
 
 	render() {
 		const {planet, loading, error} = this.state;
-		const errorMsg = error ?  <Error msg={"Looks like the planet is not found"}/> : null;
+		const errorMsg = error ?  <ErrorMsg msg={"Looks like the planet is not found"}/> : null;
 		const spinner = !error && loading ? <Spinner/> : null;
 		const content = !error && !loading ? <Planet planet={planet} /> : null;
 
