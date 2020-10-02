@@ -1,3 +1,4 @@
+import svg from './960b0b807b8d3bab15ebec50b4cefa7e.svg';
 export default class SwapiService {
 	_apiBase = 'https://swapi.dev/api/';
 
@@ -8,16 +9,16 @@ export default class SwapiService {
         throw new Error (`Could not fetch ${url} with status ${res.status}`)
         }
 
-        return await res.json()
+        return await res.json();
     };
     
     async getAllPeople() {
         const res = await this.getData('people');
-        return res.results;
+        return res.results.map((person) => this._transformPerson(person));
     };
 
     async getPerson(id) {
-        const person = await this.getData(`people/${id}`);
+        const person = await this.getData(`people/${id}/`);
         return this._transformPerson(person);
     };
 
@@ -27,7 +28,7 @@ export default class SwapiService {
     };
 
     async getPlanet(id) {
-        const planet = await this.getData(`planets/${id}`);
+        const planet = await this.getData(`planets/${id}/`);
         return this._transformPlanet(planet);
     };
 
@@ -37,35 +38,52 @@ export default class SwapiService {
     };
 
     async getStarship(id) {
-        const starship = await this.getData(`starships//${id}`);
+        const starship = await this.getData(`starships/${id}/`);
         return this._transformStarship(starship);
     };
 
-    getID(url) {
+    _getID = (url) => {
         return url.match(/\/(\d+)\/$/)[1];
     };
 
-    _transformPerson({name, gender, birth_year: year, eye_color: eyes, url}) {
+    async getPlanetImg(id) {  
+        let image = `https://starwars-visualguide.com./assets/img/planets/${id}.jpg`;
+        const res = await fetch(image);
+        if (!res.ok || res.status === '404') {
+            image = svg;
+        }
+        return image;
+    }
+
+
+    _transformPerson = ({name, gender, birth_year: year, eye_color: eyes, url}) => {
+        const personId = this._getID(url);
         return {
-            id: this.getID(url),
+            id: personId,
             name,
             gender,
             year,
-            eyes
+            eyes,
+            image: `https://starwars-visualguide.com./assets/img/characters/${personId}.jpg`
         }
     };
 
-    _transformPlanet({name, population, rotation_period: rotation, diameter, url}) {
+    _transformPlanet = async ({name, population, rotation_period: rotation, diameter, url}) => {
+        const planetId = this._getID(url);
+        let planetImg = '';
+        await this.getPlanetImg(planetId).then((img) => planetImg = img);
+
         return {
-            id: this.getID(url),
+            id: planetId,
             name,
             population,
             rotation,
-            diameter
+            diameter,
+            image: planetImg
         }
     };
 
-    _transformStarship({
+    _transformStarship = ({
         name,
         model,
         manufacturer,
@@ -75,9 +93,9 @@ export default class SwapiService {
         passengers,
         cargo_capacity: capacity,
         url
-        }) {
+        }) => {
         return {
-            id: this.getID(url),
+            id: this._getID(url),
             name,
             model,
             manufacturer,

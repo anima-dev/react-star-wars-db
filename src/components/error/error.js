@@ -3,7 +3,6 @@ import icon from './droid-r2d2-robot-star-wars-icon-6d514582eb26a244bcb41beb0682
 import './error.css';
 
 const Error = ({msg}) => {
-    console.log(msg);
     return (
         <div className="error-msg text-light m-auto">
             <div className="text-center">

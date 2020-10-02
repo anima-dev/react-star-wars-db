@@ -14,12 +14,12 @@ export default class RandomItem extends Component {
 
 	componentDidMount() {
 		this.updatePlanet();
-		this.interval = setInterval(this.updatePlanet, 2000);
-	}
+		this.interval = setInterval(this.updatePlanet, 5000);
+	};
 
 	componentWillUnmount() {
 		clearInterval(this.interval);
-	}
+	};
 
 	swapi = new SwapiService();
 
@@ -28,7 +28,8 @@ export default class RandomItem extends Component {
 			error: true,
 			loading: false
 		})
-	}
+	};
+
 
 	updatePlanet = () => {
 		const id = Math.floor(Math.random()*25+2);
@@ -60,13 +61,12 @@ export default class RandomItem extends Component {
 };
 
 const Planet = ({planet}) => {
-	const {id, name, population, rotation, diameter} = planet;
-	const img = `https://starwars-visualguide.com./assets/img/planets/${id}.jpg`;
+	const {name, population, rotation, diameter, image} = planet;
 
 	return  (
 		<>
 			<div className="randomItem__img">
-				<img className="w-100 rounded" src={img} alt={name} />
+				<img className="w-100 rounded" src={image} alt={name} />
 			</div>
 			<div className='ml-5 w-100'>
 				<h3 className="text-light">{name}</h3>
