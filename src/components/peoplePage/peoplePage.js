@@ -2,19 +2,15 @@ import React, {Component} from 'react';
 import {Row, Col} from 'reactstrap';
 import ItemsList from '../itemsList';
 import ItemDetails from '../itemDetails/';
-import ErrorMsg from '../errorMsg';
+import ErrorBoundry from '../errorBoundry';
+import SwapiService from '../../services/swapi';
 
 export default class PeoplePage extends Component {
     state = {
         idSelected: 3,
-		error: false
     }
 
-    componentDidCatch() {
-		this.setState({
-            error: true
-        });
-	}
+    swapi = new SwapiService();
 
     onItemClicked = (id) => {
         this.setState({
@@ -23,20 +19,23 @@ export default class PeoplePage extends Component {
     };
 
     render() {
-        const {idSelected, error} = this.state;
+        const {idSelected} = this.state;
 
-        if (error) {
-            return (
-                <div className="mt-5 p-5 d-flex bg-dark rounded">
-                    <ErrorMsg msg={'All people expired!!!'}/>
-                </div>
-            );
-        }
         return(
             <Row>
-                <Col md='6'><ItemsList onItemClicked={this.onItemClicked}/></Col>
-                <Col md='6'><ItemDetails itemId={idSelected}/></Col>
-            </Row>
+                <Col md='6'>
+                    <ItemsList 
+                    getData={this.swapi.getAllPeople}  
+                    onItemClicked={this.onItemClicked}>
+                        {(i) => `${i.name}: (${i.gender}, ${i.year})`}
+                    </ItemsList>
+                </Col>
+                <Col md='6'>
+                    <ErrorBoundry msg={'The person data expired!!!'}>
+                        <ItemDetails itemId={idSelected}/>
+                    </ErrorBoundry>
+                </Col>
+            </Row>       
         );
     };
 }

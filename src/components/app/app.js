@@ -49,7 +49,7 @@ export default class App extends Component {
                         <Button onClick={this.onItemToggle} color="warning">Toggle Random Planet Block</Button>
                         <ErrorBtn/>
                     </div>
-                    <PeoplePage/>
+                    <PeoplePage />
                     <PeoplePage/>
                     <PeoplePage/>
                 </Container>

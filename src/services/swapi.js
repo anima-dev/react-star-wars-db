@@ -2,7 +2,7 @@ import svg from './960b0b807b8d3bab15ebec50b4cefa7e.svg';
 export default class SwapiService {
 	_apiBase = 'https://swapi.dev/api/';
 
-    async getData(url) {
+    getData = async (url) => {
         const res = await fetch(`${this._apiBase}${url}`);
 
         if (!res.ok) {
@@ -12,32 +12,32 @@ export default class SwapiService {
         return await res.json();
     };
     
-    async getAllPeople() {
+    getAllPeople = async () => {
         const res = await this.getData('people');
         return res.results.map((person) => this._transformPerson(person));
     };
 
-    async getPerson(id) {
+    getPerson = async (id) => {
         const person = await this.getData(`people/${id}/`);
         return this._transformPerson(person);
     };
 
-    async getAllPlanets() {
+    getAllPlanets = async () => {
         const res = await this.getData('planets');
         return res.results.map((planet) => this._transformPlanet(planet));
     };
 
-    async getPlanet(id) {
+    getPlanet = async (id) => {
         const planet = await this.getData(`planets/${id}/`);
         return this._transformPlanet(planet);
     };
 
-    async getAllStarships() {
+    getAllStarships = async () => {
         const res = await this.getData('starships');
         return res.results.map((starship) => this._transformStarship(starship));
     };
 
-    async getStarship(id) {
+    getStarship = async (id) => {
         const starship = await this.getData(`starships/${id}/`);
         return this._transformStarship(starship);
     };
@@ -46,7 +46,7 @@ export default class SwapiService {
         return url.match(/\/(\d+)\/$/)[1];
     };
 
-    async getPlanetImg(id) {  
+    getPlanetImg = async (id) => {  
         let image = `https://starwars-visualguide.com./assets/img/planets/${id}.jpg`;
         const res = await fetch(image);
         if (!res.ok || res.status === '404') {

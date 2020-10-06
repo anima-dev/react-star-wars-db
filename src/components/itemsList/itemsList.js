@@ -1,29 +1,29 @@
 import React, {Component} from 'react';
 import { ListGroup, ListGroupItem } from 'reactstrap';
-import SwapiService from '../../services/swapi';
 
 export default class ItemsList extends Component {
     state = {
         allItems: []
-    }
+    };
 
-    swapi = new SwapiService();
+    getData = this.props.getData;
 
     componentDidMount() {
-        this.swapi.getAllPeople()
+        this.getData()
             .then((allItems) => this.setState({allItems}));
-    }
+    };
 
     buildList(arr) {
-        return arr.map(({id, name}) => {
+        return arr.map(item => {
+            const data = this.props.children(item);
             return (
                 <ListGroupItem 
-                    key={id}
+                    key={item.id}
                     tag="button"
                     action
                     className="border-warning text-light bg-dark"
-                    onClick={() => this.props.onItemClicked(id)}>
-                    {name}
+                    onClick={() => this.props.onItemClicked(item.id)}>
+                    {data}
                 </ListGroupItem>
             );
         });
