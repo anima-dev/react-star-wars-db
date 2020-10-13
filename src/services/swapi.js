@@ -1,6 +1,7 @@
 import svg from './960b0b807b8d3bab15ebec50b4cefa7e.svg';
 export default class SwapiService {
-	_apiBase = 'https://swapi.dev/api/';
+    _apiBase = 'https://swapi.dev/api/';
+    _imgBase = 'https://starwars-visualguide.com./assets/img/';
 
     getData = async (url) => {
         const res = await fetch(`${this._apiBase}${url}`);
@@ -47,7 +48,7 @@ export default class SwapiService {
     };
 
     getPlanetImg = async (id) => {  
-        let image = `https://starwars-visualguide.com./assets/img/planets/${id}.jpg`;
+        let image = `${this._imgBase}planets/${id}.jpg`;
         const res = await fetch(image);
         if (!res.ok || res.status === '404') {
             image = svg;
@@ -64,7 +65,7 @@ export default class SwapiService {
             gender,
             year,
             eyes,
-            image: `https://starwars-visualguide.com./assets/img/characters/${personId}.jpg`
+            image: `${this._imgBase}characters/${personId}.jpg`
         }
     };
 
@@ -103,7 +104,8 @@ export default class SwapiService {
             length,
             crew,
             passengers,
-            capacity
+            capacity,
+            image: `${this._imgBase}starships/${this._getID(url)}.jpg`
         }
     };
 };

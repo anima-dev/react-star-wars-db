@@ -1,3 +1,5 @@
-import ItemDetails from './itemDetails';
+import ItemDetails, {Record} from './itemDetails';
 
 export default ItemDetails;
+
+export {Record};

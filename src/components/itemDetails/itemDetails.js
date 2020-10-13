@@ -1,16 +1,25 @@
 import React, {Component} from 'react';
 import { ListGroup, ListGroupItem } from 'reactstrap';
-import SwapiService from '../../services/swapi';
 import Spinner from '../spinner';
 import ErrorBtn from '../errorBtn';
+import './itemDetails.css';
+
+
+const Record = ({item, label, field}) => {
+	return (
+		<ListGroupItem className="bg-dark text-light border-warning">
+			{label}: {item[field]}
+		</ListGroupItem>
+	);
+};
+export {Record};
 
 export default class ItemDetails extends Component {
-	state = {
-		selectedItem: null,
-		loading: true
-	}
 
-	swapi = new SwapiService();
+	state = {
+		item: {},
+		loading: true
+	};
 
 	componentDidMount() {
 		this.updateItem();
@@ -23,51 +32,49 @@ export default class ItemDetails extends Component {
 	};
 
 	updateItem() {
-		const {itemId} = this.props;
+		const {itemId, getItem} = this.props;
+
 		if (!itemId) {
 			return;
 		}
 
-		this.swapi.getPerson(itemId)
-			.then((person) => {this.setState({
-					selectedItem: person,
+		getItem(itemId)
+			.then((item) => {this.setState({
+					item,
 					loading: false
 				});
-			})
+			});
 	};
 
     render() {
-		const {selectedItem, loading} = this.state;
-		const content = loading ? <Spinner/> : <CharDetails char={selectedItem}/>;
+		const {item, loading} = this.state;
+		const {name, image} = item;
 
-		if (!selectedItem) {
-			return <span>Select person</span>;
+		if (!item) {
+			return <span>Select item</span>;
 		}
+	
+		const itemCard = (
+			<>
+				<div className="item__img">
+					<img className="w-100 rounded" src={image} alt={name} />
+				</div>
+				<div className='ml-5 w-100'>
+					<h3 className="text-light">{name}</h3>
+					<ListGroup flush className="mt-3">
+						{React.Children.map(this.props.children, (child) => {
+							return React.cloneElement(child, {item});
+						})}
+					</ListGroup>
+					<ErrorBtn className="mt-3"/>
+				</div>
+			</>
+		);
 		
 		return (
 			<div className="mt-5 p-5 d-flex bg-dark rounded">
-				  {content}
+				  {loading ? <Spinner/> : itemCard}
 			  </div>
 		);
 	};
-};
-
-const CharDetails = ({char}) => {
-	const {name, image, gender, year, eyes} = char;
-	return (
-		<>
-		<div className="item__img">
-			<img className="w-100 rounded" src={image} alt={name} />
-		</div>
-		<div className='ml-5 w-100'>
-			<h3 className="text-light">{name}</h3>
-			<ListGroup flush className="mt-3">
-				<ListGroupItem className="bg-dark text-light border-warning">Gender: {gender}</ListGroupItem>
-				<ListGroupItem className="bg-dark text-light border-warning">Birth: {year}</ListGroupItem>
-				<ListGroupItem className="bg-dark text-light border-warning">Eyes: {eyes}</ListGroupItem>
-			</ListGroup>
-			<ErrorBtn className="mt-3"/>
-		</div>
-		</>
-	)
 };

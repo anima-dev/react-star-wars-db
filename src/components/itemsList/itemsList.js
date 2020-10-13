@@ -1,42 +1,40 @@
-import React, {Component} from 'react';
+import React from 'react';
 import { ListGroup, ListGroupItem } from 'reactstrap';
+import withData from '../HOC-helpers/withData';
+import SwapiService from '../../services/swapi';
+import ErrorBtn from '../errorBtn';
 
-export default class ItemsList extends Component {
-    state = {
-        allItems: []
-    };
+const ItemsList = (props) => {
 
-    getData = this.props.getData;
-
-    componentDidMount() {
-        this.getData()
-            .then((allItems) => this.setState({allItems}));
-    };
-
-    buildList(arr) {
-        return arr.map(item => {
-            const data = this.props.children(item);
+    const {data, onItemClicked, children: renderLabel} = props;
+    
+    const items = data.map(item => {
+            const label = renderLabel(item);
+            const {id} = item;
             return (
                 <ListGroupItem 
-                    key={item.id}
+                    key={id}
                     tag="button"
                     action
                     className="border-warning text-light bg-dark"
-                    onClick={() => this.props.onItemClicked(item.id)}>
-                    {data}
+                    onClick={() => onItemClicked(id)}>
+                    {label}
                 </ListGroupItem>
             );
         });
-    };
-
-    render() {
-        const items = this.buildList(this.state.allItems);
+ 
         return (
             <div className="bg-dark pr-5 pl-5 pt-3 pb-3 mt-5 rounded">
                 <ListGroup flush>
                     {items}
                 </ListGroup>
+
+                <ErrorBtn />
+
             </div>
         );
-    };
-}
+};
+
+const {getAllPeople} = new SwapiService();
+
+export default withData(ItemsList, getAllPeople);
