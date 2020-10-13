@@ -29,8 +29,10 @@ export default class SwapiService {
     };
 
     getPlanet = async (id) => {
-        const planet = await this.getData(`planets/${id}/`);
-        return this._transformPlanet(planet);
+        const res = await this.getData(`planets/${id}/`); 
+        const planet = this._transformPlanet(res);
+        const img = await this.getPlanetImg(planet.id)
+        return {...planet, image: img};
     };
 
     getAllStarships = async () => {
@@ -69,18 +71,15 @@ export default class SwapiService {
         }
     };
 
-    _transformPlanet = async ({name, population, rotation_period: rotation, diameter, url}) => {
+    _transformPlanet = ({name, population, rotation_period: rotation, diameter, url}) => {
         const planetId = this._getID(url);
-        let planetImg = '';
-        await this.getPlanetImg(planetId).then((img) => planetImg = img);
-
+        
         return {
             id: planetId,
             name,
             population,
             rotation,
             diameter,
-            image: planetImg
         }
     };
 

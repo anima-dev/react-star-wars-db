@@ -1,7 +1,5 @@
 import React from 'react';
 import { ListGroup, ListGroupItem } from 'reactstrap';
-import withData from '../HOC-helpers/withData';
-import SwapiService from '../../services/swapi';
 import ErrorBtn from '../errorBtn';
 
 const ItemsList = (props) => {
@@ -11,6 +9,7 @@ const ItemsList = (props) => {
     const items = data.map(item => {
             const label = renderLabel(item);
             const {id} = item;
+            console.log(item);
             return (
                 <ListGroupItem 
                     key={id}
@@ -35,6 +34,4 @@ const ItemsList = (props) => {
         );
 };
 
-const {getAllPeople} = new SwapiService();
-
-export default withData(ItemsList, getAllPeople);
+export default ItemsList;
