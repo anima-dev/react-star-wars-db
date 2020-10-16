@@ -1,16 +1,19 @@
 import React from 'react';
 import ItemDetails, {Record} from '../itemDetails';
 import SwapiService from '../../services/swapi';
+import ErrorBoundry from '../errorBoundry';
 
 const {getPerson, getPlanet, getStarship} = new SwapiService();
 
 const PersonDetails = ({itemId}) => {
     return (
-        <ItemDetails getItem={getPerson} itemId={itemId}>
-            <Record label="Gender" field="gender"/>
-            <Record label="Date of Birth" field="year"/>
-            <Record label="Eye Color" field="eyes"/>
-        </ItemDetails>
+        <ErrorBoundry msg={'The person data expired!!!'}>
+                <ItemDetails getItem={getPerson} itemId={itemId}>
+                    <Record label="Gender" field="gender"/>
+                    <Record label="Date of Birth" field="year"/>
+                    <Record label="Eye Color" field="eyes"/>
+                </ItemDetails>
+        </ ErrorBoundry>
     );
 };
 

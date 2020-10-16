@@ -8,6 +8,7 @@ import ErrorMsg from '../errorMsg';
 import './app.css';
 import SwapiService from '../../services/swapi';
 import { PersonDetails, StarshipDetails, PlanetDetails, PeopleList, StarshipsList, PlanetsList } from '../sw-components';
+import PeoplePage from '../peoplePage/peoplePage';
 
 
 export default class App extends Component {
@@ -59,17 +60,11 @@ export default class App extends Component {
                     <StarshipDetails itemId={22}/>
                     <PlanetDetails itemId={22}/>
 
-                    <PeopleList>
-                        {(i) => `${i.name} (${i.year})`}    
-                    </PeopleList>
+                    <PeopleList />
+                    <StarshipsList />
+                    <PlanetsList />
 
-                    <StarshipsList>
-                        {(i) => `${i.name}`}    
-                    </StarshipsList>
-
-                    <PlanetsList>
-                        {(i) => `${i.name}`}    
-                    </PlanetsList>
+                    <PeoplePage />
                     
                 </Container>
             </div>
