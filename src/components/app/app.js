@@ -9,6 +9,7 @@ import './app.css';
 import SwapiService from '../../services/swapi';
 import { PersonDetails, StarshipDetails, PlanetDetails, PeopleList, StarshipsList, PlanetsList } from '../sw-components';
 import PeoplePage from '../peoplePage/peoplePage';
+import { SwapiServiceProvider } from '../swapiServiceContext';
 
 
 export default class App extends Component {
@@ -56,15 +57,18 @@ export default class App extends Component {
                         <Button onClick={this.onItemToggle} color="warning">Toggle Random Planet Block</Button>
                         <ErrorBtn/>
                     </div>
-                    <PersonDetails itemId={22}/>
-                    <StarshipDetails itemId={22}/>
-                    <PlanetDetails itemId={22}/>
+                    <SwapiServiceProvider value={this.swapi}>
+                        <PersonDetails itemId={22}/>
+                        <StarshipDetails itemId={22}/>
+                        <PlanetDetails itemId={22}/>
 
-                    <PeopleList />
-                    <StarshipsList />
-                    <PlanetsList />
+                        <PeopleList />
+                        <StarshipsList />
+                        <PlanetsList />
+                        <PeoplePage />
+                    </SwapiServiceProvider>
 
-                    <PeoplePage />
+                    
                     
                 </Container>
             </div>
