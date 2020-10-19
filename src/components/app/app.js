@@ -11,7 +11,6 @@ import { PersonDetails, StarshipDetails, PlanetDetails, PeopleList, StarshipsLis
 import PeoplePage from '../peoplePage/peoplePage';
 import { SwapiServiceProvider } from '../swapiServiceContext';
 
-
 export default class App extends Component {
     state = {
         randomItem: true,
@@ -67,9 +66,6 @@ export default class App extends Component {
                         <PlanetsList />
                         <PeoplePage />
                     </SwapiServiceProvider>
-
-                    
-                    
                 </Container>
             </div>
         )
