@@ -3,11 +3,10 @@ import ItemDetails, {Record} from '../itemDetails';
 import ErrorBoundry from '../errorBoundry';
 import withSwapi from '../HOC-helpers/withSwapi';
 
-const PlanetDetails = ({itemId, swapi}) => {
-    const {getPlanet} = swapi;
+const PlanetDetails = (props) => {
     return (
         <ErrorBoundry>
-            <ItemDetails getItem={getPlanet} itemId={itemId}>
+            <ItemDetails {...props}>
                 <Record label="Name" field="name"/>
                 <Record label="Length" field="length"/>
                 <Record label="Manufacturer" field="manufacturer"/>
@@ -16,5 +15,11 @@ const PlanetDetails = ({itemId, swapi}) => {
     );
 };
 
-export default withSwapi(PlanetDetails);
+const mapMethodsToProps = ({getPlanet}) => {
+    return {
+        getItem: getPlanet
+    };
+};
+
+export default withSwapi(PlanetDetails, mapMethodsToProps);
 

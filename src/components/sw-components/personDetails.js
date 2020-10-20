@@ -3,11 +3,10 @@ import ErrorBoundry from '../errorBoundry';
 import withSwapi from '../HOC-helpers/withSwapi';
 import ItemDetails, {Record} from '../itemDetails';
 
-const PersonDetails = ({itemId, swapi}) => {
-    const {getPerson} = swapi;
+const PersonDetails = (props) => {
     return (
         <ErrorBoundry msg={'The person data expired!!!'}>
-            <ItemDetails getItem={getPerson} itemId={itemId}>
+            <ItemDetails {...props}>
                 <Record label="Gender" field="gender"/>
                 <Record label="Date of Birth" field="year"/>
                 <Record label="Eye Color" field="eyes"/>
@@ -16,4 +15,10 @@ const PersonDetails = ({itemId, swapi}) => {
     );
 };
 
-export default withSwapi(PersonDetails);
+const mapMethodsToProps = ({getPerson}) => {
+    return {
+        getItem: getPerson
+    };
+}
+
+export default withSwapi(PersonDetails, mapMethodsToProps);
