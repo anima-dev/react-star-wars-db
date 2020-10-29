@@ -9,7 +9,6 @@ const ItemsList = (props) => {
     const items = data.map(item => {
             const label = renderLabel(item);
             const {id} = item;
-            console.log(item);
             return (
                 <ListGroupItem 
                     key={id}

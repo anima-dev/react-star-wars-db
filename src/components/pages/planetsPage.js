@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import RowComponent from '../rowComponent';
-import { PersonDetails, PeopleList } from '../sw-components';
+import { PlanetDetails, PlanetsList } from '../sw-components';
 
-export default class PeoplePage extends Component {
+export default class PlanetsPage extends Component {
     state = {
         idSelected: 3,
     };
@@ -19,8 +19,8 @@ export default class PeoplePage extends Component {
 
         return (
             <RowComponent 
-                left={<PeopleList onItemClicked={this.onItemClicked} />} 
-                right={<PersonDetails itemId={idSelected}/>} />
+                left={<PlanetsList onItemClicked={this.onItemClicked} />} 
+                right={<PlanetDetails itemId={idSelected}/>} />
         );
     };
 };

@@ -7,9 +7,10 @@ import ErrorBtn from '../errorBtn';
 import ErrorMsg from '../errorMsg';
 import './app.css';
 import SwapiService from '../../services/swapi';
-import { PersonDetails, StarshipDetails, PlanetDetails, PeopleList, StarshipsList, PlanetsList } from '../sw-components';
-import PeoplePage from '../peoplePage/peoplePage';
+import {PeoplePage, PlanetsPage, StarshipsPage} from '../pages';
 import { SwapiServiceProvider } from '../swapiServiceContext';
+import {BrowserRouter as Router, Route} from 'react-router-dom';
+import { StarshipDetails } from '../sw-components';
 
 export default class App extends Component {
     state = {
@@ -49,24 +50,37 @@ export default class App extends Component {
 
         return (
             <div className="bg-secondary main">
-                <Row className="w-100"><Col><Header/></Col></Row>
-                <Container>
-                    <Row><Col>{randomPlanet}</Col></Row>
-                    <div className="mt-5">
-                        <Button onClick={this.onItemToggle} color="warning">Toggle Random Planet Block</Button>
-                        <ErrorBtn/>
-                    </div>
-                    <SwapiServiceProvider value={this.swapi}>
-                        <PersonDetails itemId={22}/>
-                        <StarshipDetails itemId={22}/>
-                        <PlanetDetails itemId={22}/>
-
-                        <PeopleList />
-                        <StarshipsList />
-                        <PlanetsList />
-                        <PeoplePage />
-                    </SwapiServiceProvider>
-                </Container>
+               <Router>
+                    <Row className="w-100"><Col><Header/></Col></Row>
+                    <Container>
+                        <Row><Col>{randomPlanet}</Col></Row>
+                        <div className="mt-5">
+                            <Button onClick={this.onItemToggle} color="warning">Toggle Random Planet Block</Button>
+                            <ErrorBtn/>
+                        </div>
+                        <Route 
+                            path={'/'}
+                            render={() => <h2 className="mt-5">Welcome to Star DB</h2>}
+                            exact/>
+                        <SwapiServiceProvider value={this.swapi}>
+                            <Route 
+                            path={'/people/:id?'} 
+                            component={PeoplePage} />
+                            <Route 
+                            path={'/planets'} 
+                            component={PlanetsPage} />
+                            <Route 
+                            path={'/starships'} 
+                            component={StarshipsPage} 
+                            exact/>
+                            <Route 
+                                path={'/starships/:id'}
+                                render={({match}) => {
+                                    return <StarshipDetails itemId={match.params.id}/>
+                                }}/>
+                        </SwapiServiceProvider>
+                    </Container>
+               </Router>
             </div>
         )
     }

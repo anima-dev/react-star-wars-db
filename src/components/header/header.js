@@ -1,5 +1,6 @@
 import React from 'react';
-import { Navbar, NavbarBrand, Nav, NavItem, NavLink, Container } from 'reactstrap';
+import { Navbar, NavbarBrand, Nav, NavItem, Container } from 'reactstrap';
+import {Link} from 'react-router-dom';
 
 const Header = () => {
     return (
@@ -8,13 +9,15 @@ const Header = () => {
                 <NavbarBrand href="/" className="text-warning">Star DB</NavbarBrand>
                 <Nav className="mr-auto" navbar>
                     <NavItem>
-                        <NavLink href='/'>People</NavLink>
+                        <Link to='/people/' className="nav-link">
+                            People
+                        </Link>
                     </NavItem>
                     <NavItem>
-                        <NavLink href='/'>Planets</NavLink>
+                        <Link to='/planets/' className="nav-link">Planets</Link>
                     </NavItem>
                     <NavItem>
-                        <NavLink href='/'>Starships</NavLink>
+                        <Link to='/starships/' className="nav-link">Starships</Link>
                     </NavItem>
                 </Nav>
             </Container>

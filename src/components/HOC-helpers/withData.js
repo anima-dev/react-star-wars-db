@@ -6,13 +6,15 @@ const withData = (View) => {
     return class extends Component {
         state = {
             data: [],
-            error: false
+            error: false,
+            loading: true
         };
     
         componentDidMount() {
             this.props.getData()
                 .then((data) => this.setState({
-                    data
+                    data,
+                    loading: false
                 }));
         };
 
@@ -23,9 +25,9 @@ const withData = (View) => {
         }
         
         render() {
-            const {data, error} = this.state;
+            const {data, error, loading} = this.state;
 
-            if (!data) {
+            if (loading) {
                 return (
                     <div className="mt-5 p-5 d-flex bg-dark rounded">
                         <Spinner />

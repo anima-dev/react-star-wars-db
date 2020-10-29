@@ -1,4 +1,5 @@
-import svg from './960b0b807b8d3bab15ebec50b4cefa7e.svg';
+import svgPlanet from './960b0b807b8d3bab15ebec50b4cefa7e.svg';
+import svgStarhip from './spaceship-svgrepo-com.svg';
 export default class SwapiService {
     _apiBase = 'https://swapi.dev/api/';
     _imgBase = 'https://starwars-visualguide.com./assets/img/';
@@ -41,8 +42,10 @@ export default class SwapiService {
     };
 
     getStarship = async (id) => {
-        const starship = await this.getData(`starships/${id}/`);
-        return this._transformStarship(starship);
+        const res = await this.getData(`starships/${id}/`);
+        const starship = this._transformStarship(res);
+        const img = await this.getStarshipImg(starship.id)
+        return {...starship, image: img};
     };
 
     _getID = (url) => {
@@ -53,10 +56,19 @@ export default class SwapiService {
         let image = `${this._imgBase}planets/${id}.jpg`;
         const res = await fetch(image);
         if (!res.ok || res.status === '404') {
-            image = svg;
+            image = svgPlanet;
         }
         return image;
-    }
+    };
+
+    getStarshipImg = async (id) => {  
+        let image = `${this._imgBase}starships/${id}.jpg`;
+        const res = await fetch(image);
+        if (!res.ok || res.status === '404') {
+            image = svgStarhip;
+        }
+        return image;
+    };
 
 
     _transformPerson = ({name, gender, birth_year: year, eye_color: eyes, url}) => {
@@ -79,8 +91,8 @@ export default class SwapiService {
             name,
             population,
             rotation,
-            diameter,
-        }
+            diameter
+        };
     };
 
     _transformStarship = ({
@@ -103,9 +115,8 @@ export default class SwapiService {
             length,
             crew,
             passengers,
-            capacity,
-            image: `${this._imgBase}starships/${this._getID(url)}.jpg`
-        }
+            capacity
+        };
     };
 };
 
