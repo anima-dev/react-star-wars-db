@@ -19,6 +19,12 @@ const Header = () => {
                     <NavItem>
                         <Link to='/starships/' className="nav-link">Starships</Link>
                     </NavItem>
+                    <NavItem>
+                        <Link to='/login/' className="nav-link">Log In</Link>
+                    </NavItem>
+                    <NavItem>
+                        <Link to='/secret/' className="nav-link">Secret Page</Link>
+                    </NavItem>
                 </Nav>
             </Container>
         </Navbar>
